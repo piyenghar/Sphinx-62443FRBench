@@ -1,0 +1,189 @@
+{
+  "devices": ["PLC", "HMI", "Drive"],
+
+  "FR1": {
+    "name": "Identification & Authentication Control",
+    "actions": ["authenticate", "log in", "use a unique account", "re-authenticate"],
+    "templates": [
+      "The {DEVICE} shall require each {SUBJECT} to {ACTION} before performing {OBJECT} {CONDITION}.",
+      "The {DEVICE} shall ensure that every {SUBJECT} uses a unique account for {OBJECT}.",
+      "The {DEVICE} shall lock the {SUBJECT} account after X failed attempts to {ACTION}."
+    ]
+  },
+
+  "FR2": {
+    "name": "Use Control",
+    "actions": ["restrict", "allow", "deny", "limit", "grant"],
+    "templates": [
+      "The {DEVICE} shall {ACTION} {SUBJECT} {OBJECT} {CONDITION}.",
+      "The {DEVICE} shall enforce that only users with the appropriate role can {OBJECT}.",
+      "The {DEVICE} shall prevent {SUBJECT} from performing {OBJECT} unless authorized {CONDITION}."
+    ]
+  },
+
+  "FR3": {
+    "name": "System Integrity",
+    "actions": ["verify the integrity of", "block execution of", "allow execution of", "detect tampering with", "reject"],
+    "templates": [
+      "The {DEVICE} shall {ACTION} {OBJECT} {CONDITION}.",
+      "The {DEVICE} shall only execute {OBJECT} that has passed integrity verification.",
+      "The {DEVICE} shall generate an alert if tampering with {OBJECT} is detected {CONDITION}."
+    ]
+  },
+
+  "FR4": {
+    "name": "Data Confidentiality",
+    "actions": ["encrypt", "protect", "restrict access to", "store securely", "mask"],
+    "templates": [
+      "The {DEVICE} shall {ACTION} {SUBJECT} as {OBJECT} {CONDITION}.",
+      "The {DEVICE} shall ensure that only authorized processes can access {SUBJECT} {CONDITION}.",
+      "The {DEVICE} shall prevent unauthorized disclosure of {SUBJECT} {CONDITION}."
+    ]
+  },
+
+  "FR5": {
+    "name": "Restricted Data Flow",
+    "actions": ["restrict", "filter", "allow only", "block", "segment"],
+    "templates": [
+      "The {DEVICE} shall {ACTION} {OBJECT} on the {SUBJECT} {CONDITION}.",
+      "The {DEVICE} shall allow only approved protocols on the {SUBJECT} {CONDITION}.",
+      "The {DEVICE} shall block {OBJECT} on the {SUBJECT} that do not comply with configured rules."
+    ]
+  },
+
+  "FR6": {
+    "name": "Timely Response to Events",
+    "actions": ["detect", "log", "alert", "notify", "lock out"],
+    "templates": [
+      "The {DEVICE} shall {ACTION} {OBJECT} {CONDITION}.",
+      "The {DEVICE} shall generate an alert to the operator when {OBJECT} occurs {CONDITION}.",
+      "The {DEVICE} shall log {OBJECT} for later analysis {CONDITION}."
+    ]
+  },
+
+  "FR7": {
+    "name": "Resource Availability",
+    "actions": ["maintain", "recover", "fail to a safe state", "limit", "isolate"],
+    "templates": [
+      "The {DEVICE} shall {ACTION} {OBJECT} {CONDITION}.",
+      "The {DEVICE} shall fail to a safe state for {OBJECT} {CONDITION}.",
+      "The {DEVICE} shall limit non-essential activities to preserve {OBJECT} {CONDITION}."
+    ]
+  },
+
+  "device_fr_config": {
+    "PLC": {
+      "FR1": {
+        "subjects": ["operator", "maintenance engineer", "administrator", "engineering workstation"],
+        "objects": ["engineering access", "configuration changes", "firmware update"],
+        "conditions": ["before any change is applied", "over remote connections", "from untrusted networks"]
+      },
+      "FR2": {
+        "subjects": ["operator", "maintenance engineer", "administrator"],
+        "objects": ["download of programs", "parameter changes", "access to advanced menus", "start/stop operations"],
+        "conditions": ["based on user role", "during normal operation", "from local panel"]
+      },
+      "FR3": {
+        "subjects": ["PLC", "PLC firmware", "control program"],
+        "objects": ["logic", "firmware", "downloaded programs", "configuration files"],
+        "conditions": ["at startup", "before installation", "after download", "periodically during operation"]
+      },
+      "FR4": {
+        "subjects": ["user credentials", "sensitive configuration data"],
+        "objects": ["data at rest", "backup files"],
+        "conditions": ["on the device", "in backups"]
+      },
+      "FR5": {
+        "subjects": ["Ethernet port", "fieldbus interface"],
+        "objects": ["incoming connections", "specific protocols", "specific IP ranges"],
+        "conditions": ["between defined zones", "to/from the SCADA network"]
+      },
+      "FR6": {
+        "subjects": ["PLC"],
+        "objects": ["failed login attempts", "configuration changes", "security events"],
+        "conditions": ["in real time", "immediately", "upon detection"]
+      },
+      "FR7": {
+        "subjects": ["PLC"],
+        "objects": ["critical control functions", "control logic execution"],
+        "conditions": ["during network disruption", "during denial-of-service conditions", "under high load"]
+      }
+    },
+
+    "HMI": {
+      "FR1": {
+        "subjects": ["operator", "maintenance engineer", "administrator"],
+        "objects": ["control functions", "configuration changes"],
+        "conditions": ["before any change is applied", "over remote connections", "from untrusted networks"]
+      },
+      "FR2": {
+        "subjects": ["operator", "maintenance engineer", "administrator"],
+        "objects": ["access to control commands", "access to advanced menus", "start/stop operations"],
+        "conditions": ["based on user role", "during normal operation", "from local panel", "from remote session"]
+      },
+      "FR3": {
+        "subjects": ["HMI application", "HMI configuration"],
+        "objects": ["application software", "configuration files"],
+        "conditions": ["at startup", "before installation", "after download"]
+      },
+      "FR4": {
+        "subjects": ["user credentials", "historical logs"],
+        "objects": ["data at rest", "log records"],
+        "conditions": ["on the device", "when exported"]
+      },
+      "FR5": {
+        "subjects": ["network interface"],
+        "objects": ["incoming connections", "specific protocols", "remote hosts"],
+        "conditions": ["between defined zones", "to/from the SCADA network", "from the enterprise network"]
+      },
+      "FR6": {
+        "subjects": ["HMI"],
+        "objects": ["failed login attempts", "configuration changes", "security events"],
+        "conditions": ["in real time", "immediately", "upon detection"]
+      },
+      "FR7": {
+        "subjects": ["HMI"],
+        "objects": ["critical control functions", "essential services"],
+        "conditions": ["during network disruption", "under high load"]
+      }
+    },
+
+    "Drive": {
+      "FR1": {
+        "subjects": ["operator", "maintenance engineer", "administrator"],
+        "objects": ["parameter changes", "remote access session"],
+        "conditions": ["before any change is applied", "over remote connections"]
+      },
+      "FR2": {
+        "subjects": ["operator", "maintenance engineer", "administrator"],
+        "objects": ["parameter changes", "start/stop operations"],
+        "conditions": ["based on user role", "during normal operation", "from local panel"]
+      },
+      "FR3": {
+        "subjects": ["drive firmware", "drive configuration"],
+        "objects": ["firmware", "configuration files"],
+        "conditions": ["at startup", "before installation", "after download"]
+      },
+      "FR4": {
+        "subjects": ["sensitive configuration data"],
+        "objects": ["data at rest", "backup files"],
+        "conditions": ["on the device", "in backups"]
+      },
+      "FR5": {
+        "subjects": ["drive network interface"],
+        "objects": ["incoming connections", "specific protocols"],
+        "conditions": ["between defined zones", "from the PLC network"]
+      },
+      "FR6": {
+        "subjects": ["drive"],
+        "objects": ["failed login attempts", "configuration changes"],
+        "conditions": ["in real time", "immediately", "upon detection"]
+      },
+      "FR7": {
+        "subjects": ["drive"],
+        "objects": ["critical control functions", "communications"],
+        "conditions": ["during network disruption", "under high load", "during hardware failure"]
+      }
+    }
+  }
+}
